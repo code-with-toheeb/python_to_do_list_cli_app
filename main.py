@@ -41,6 +41,7 @@ def add_task(tasks):
 
 def view_task(tasks):
     print("📋 Your Tasks")
+    print()
     for i , j in tasks.items():
         if j["status"] == True:
             print(f"[{i}] ✅ {j["title"]}")
@@ -73,7 +74,7 @@ def delete_task(tasks):
             elif 0 < delete <= len(tasks):
                 title = tasks[delete]["title"]
                 del tasks[delete]
-                print(f"✅ Task {title} marked as been deleted.")
+                print(f"✅ Task {title} marked has been deleted.")
                 return
             else:
                 print("No task is within that range")
