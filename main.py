@@ -12,7 +12,7 @@ menus = {
 
 
 
-task = {1 : {"title" : "Read Chemistry", "status" : False}}
+task = {1 : {"title" : "Read Chemistry", "status" : False},2 : {"title" :"Read Physics", "status" : False}}
 
 
 def menu():
@@ -41,7 +41,7 @@ def add_task(tasks):
     user_input = input(f"Enter you new Task: ").title().strip()
     if len(user_input) > 0:
         tasks[max(tasks) + 1] = {"title" : user_input, "status" : False} 
-    print(f"✅ Task {user_input} added")
+    print(f"✅ Task --> {user_input} added")
 
     return user_input
 
@@ -53,15 +53,36 @@ def view_task(tasks):
         else:
             print(f"[{i}] ❌ {j["title"]}")
 
+def user_completed_task(tasks):
+    while True:
+        complete = input(f"Enter the task number to mark as done: (or press enter or 0 to quit)")
+        if complete.isdigit():
+            complete = int(complete)
+            if complete == 0:
+                break
+            elif 0 < complete <= len(tasks):
+                tasks[complete]["status"] = True
+                print(f"✅ Task {tasks[complete]["title"]} marked as completed.")
+                return
+            else:
+                print("No task is within that range")
+        else:
+            print("Please Enter a valid number")
+    
+
 
 def main():
 
     menu()
-    choice = user_choice()
-    if choice == 1:
-        add_task(task)
-    elif choice == 2:
-        view_task(task)
-
-
+    while True:
+        choice = user_choice()
+        if choice == 1:
+            add_task(task)
+        elif choice == 2:
+            view_task(task)
+        elif choice == 3:
+            user_completed_task(task)
+        elif choice == 5:
+            print("See you later")
+            break
 main()
