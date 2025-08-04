@@ -1,19 +1,12 @@
-MIN_MENU = 1
+MIN_MENU = 0
 MAX_MENU = 5
 
-menus = {
-    "Add Task" : 1,
-    "View Task" : 2,
-    "Mark Task as Complete" : 3,
-    "Delete Task" : 4,
-    "Exit" : 5
-}
 
 
 
 
-task = {1 : {"title" : "Read Chemistry", "status" : False},2 : {"title" :"Read Physics", "status" : False}}
-
+#task = {1 : {"title" : "Read Chemistry", "status" : False},2 : {"title" :"Read Physics", "status" : False}}
+task = dict()
 
 def menu():
     print("===TO-DO-LIST===")
@@ -27,7 +20,7 @@ def menu():
 
 def user_choice():
     while True:
-        choice = input("Enter Your Choice: ")
+        choice = input("Enter Your Choice or Enter Zero to go back to Menu: ")
         if choice.isdigit():
             choice = int(choice)
             if MIN_MENU <= choice <= MAX_MENU:
@@ -40,7 +33,8 @@ def user_choice():
 def add_task(tasks):
     user_input = input(f"Enter you new Task: ").title().strip()
     if len(user_input) > 0:
-        tasks[max(tasks) + 1] = {"title" : user_input, "status" : False} 
+        new_id = max(tasks) + 1 if tasks else 1
+        tasks[new_id] = {"title" : user_input, "status" : False} 
     print(f"✅ Task --> {user_input} added")
 
     return user_input
@@ -60,7 +54,7 @@ def user_completed_task(tasks):
             complete = int(complete)
             if complete == 0:
                 break
-            elif 0 < complete <= len(tasks):
+            elif complete in tasks:
                 tasks[complete]["status"] = True
                 print(f"✅ Task {tasks[complete]["title"]} marked as completed.")
                 return
@@ -69,19 +63,37 @@ def user_completed_task(tasks):
         else:
             print("Please Enter a valid number")
     
-
-
+def delete_task(tasks):
+    while True:
+        delete = input(f"Enter the task number to mark as done: (or press enter or 0 to quit)")
+        if delete.isdigit():
+            delete = int(delete)
+            if delete == 0:
+                break
+            elif 0 < delete <= len(tasks):
+                title = tasks[delete]["title"]
+                del tasks[delete]
+                print(f"✅ Task {title} marked as been deleted.")
+                return
+            else:
+                print("No task is within that range")
+        else:
+            print("Please Enter a valid number")
 def main():
 
     menu()
     while True:
         choice = user_choice()
+        if choice == 0:
+            menu()
         if choice == 1:
             add_task(task)
         elif choice == 2:
             view_task(task)
         elif choice == 3:
             user_completed_task(task)
+        elif choice == 4:
+            delete_task(task)
         elif choice == 5:
             print("See you later")
             break
