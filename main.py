@@ -11,6 +11,10 @@ menus = {
 
 
 
+
+task = {1 : {"title" : "Read Chemistry", "status" : False}}
+
+
 def menu():
     print("===TO-DO-LIST===")
     print()
@@ -23,7 +27,7 @@ def menu():
 
 def user_choice():
     while True:
-        choice = input("Enter Your Choice")
+        choice = input("Enter Your Choice: ")
         if choice.isdigit():
             choice = int(choice)
             if MIN_MENU <= choice <= MAX_MENU:
@@ -33,11 +37,31 @@ def user_choice():
         else:
             print("⚠️Enter a valid number")
 
-def add_task():
-    user_input = input(f"Enter you new Task: ").capitalize()
+def add_task(tasks):
+    user_input = input(f"Enter you new Task: ").title().strip()
+    if len(user_input) > 0:
+        tasks[max(tasks) + 1] = {"title" : user_input, "status" : False} 
     print(f"✅ Task {user_input} added")
 
     return user_input
 
-def view_task():
+def view_task(tasks):
     print("📋 Your Tasks")
+    for i , j in tasks.items():
+        if j["status"] == True:
+            print(f"[{i}] ✅ {j["title"]}")
+        else:
+            print(f"[{i}] ❌ {j["title"]}")
+
+
+def main():
+
+    menu()
+    choice = user_choice()
+    if choice == 1:
+        add_task(task)
+    elif choice == 2:
+        view_task(task)
+
+
+main()
